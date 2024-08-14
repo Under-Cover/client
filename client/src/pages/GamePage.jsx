@@ -13,7 +13,7 @@ import hm from "../assets/hm.gif"
 
 let images = [card1, card2, card3, card4]
 
-const socket = io("http://localhost:3000");
+const socket = io("http://gp.halobangjago.site");
 
 const GamePage = () => {
     const [messages, setMessages] = useState([]);
