@@ -6,6 +6,7 @@ import {
 import "./index.css";
 import StartPage from "./pages/StartPage";
 import GamePage from "./pages/GamePage";
+import { LoginProvider } from "../context/MyContext"
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        element: <StartPage />,
+        element: (
+          <LoginProvider>
+            <StartPage />
+          </LoginProvider>
+        )
       },
     ],
   },
