@@ -1,8 +1,7 @@
 import bgimage from "../assets/selected.png"
 import logo from "../assets/logo.gif"
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {useLoginContext} from "../../context/MyContext"
+import { useLoginContext } from "../context/MyContext"
+
 
 const StartPage = () => {
     // const [username, setUsername] = useState("");

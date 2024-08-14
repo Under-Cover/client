@@ -6,7 +6,7 @@ import {
 import "./index.css";
 import StartPage from "./pages/StartPage";
 import GamePage from "./pages/GamePage";
-import { LoginProvider } from "../context/MyContext"
+import { LoginProvider } from "./context/MyContext"
 
 const router = createBrowserRouter([
   {
