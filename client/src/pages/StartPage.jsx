@@ -2,16 +2,19 @@ import bgimage from "../assets/selected.png"
 import logo from "../assets/logo.gif"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {useLoginContext} from "../../context/MyContext"
 
 const StartPage = () => {
-    const [username, setUsername] = useState("");
-    const navigate = useNavigate()
+    // const [username, setUsername] = useState("");
+    // const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        localStorage.setItem("name", username);
-        navigate('/')
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     localStorage.setItem("name", username);
+    //     navigate('/')
+    // };
+
+    const { username, setUsername, handleSubmit} = useLoginContext()
     return (
 
         <div style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'cover', backgroundPosition: 'center', fontFamily: "League Spartan" }} className="h-[100vh] flex items-center align-middle justify-center" >
