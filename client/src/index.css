@@ -2,6 +2,63 @@
   font-family: League Spartan
 }
 
+/* :root {
+  --steps: 25; 
+} */
+
+
+/* .typing {
+
+  font-family: League Spartan;
+ 
+  position: relative;
+    &::after {
+    content: "|";
+    position: absolute;
+    right: 0;
+    width: 100%;
+    color: white;
+    background: var(--background);
+    animation: typing 2s steps(var(--steps)) forwards,
+      caret 1s infinite;
+  }
+}
+
+@keyframes typing {
+    to { width: 0 }
+}
+@keyframes caret {
+    50% { color: transparent }
+} */
+
+.typing-animation {
+  display: inline-block;
+  font-family: League Spartan;
+  overflow: hidden;
+  border-right: 0.15em solid white;
+  white-space: nowrap;
+  margin: 0 auto;
+  width: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.typing-animation.animate {
+  animation: typing 3.5s steps(26, end) forwards, blink-caret 0.75s step-end infinite;
+  opacity: 1;
+  color: white
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 36% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: white }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
