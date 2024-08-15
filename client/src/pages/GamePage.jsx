@@ -1,17 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 import waiting from "../assets/bg.png"
-import card1 from "../assets/5.png"
-import card2 from "../assets/6.png"
-import card3 from "../assets/7.png"
-import card4 from "../assets/8.png"
-import Card from "../components/Card"
 import pacman from "../assets/pacman.gif"
 import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import { io } from "socket.io-client"
 import hm from "../assets/hm.gif"
-
-let images = [card1, card2, card3, card4]
+import lose from "../assets/wek.gif"
+import win from "../assets/yey.gif"
+import Card from "../components/Card"
 
 const socket = io("https://gp.halobangjago.site");
 
@@ -23,11 +19,29 @@ const GamePage = () => {
     const [voted, setVoted] = useState(false);
     const [gameStarted, setGameStarted] = useState(false);
     const [isSelect, setIsSelect] = useState(false)
+    const [kartu, setKartu] = useState();
     const messagesEndRef = useRef(null);
     const navigate = useNavigate();
 
+    const handleFlap = (i) => {
+        // setIsFlipped(!isFlipped);
+        setIsSelect(true);
+        socket.emit("setawik", { i });
+        
+    };
+
+
     useEffect(() => {
         const sender = localStorage.getItem("name");
+        
+
+        socket.on("awikwokwok", (i) => {
+            console.log(i);
+
+            setKartu(i);
+            console.log(kartu);
+        });
+
         socket.emit("new-player", { sender });
 
         socket.emit('/messages/get')
@@ -58,31 +72,79 @@ const GamePage = () => {
             if (undercover === localStorage.getItem("name")) {
                 if (result === "win") {
                     Swal.fire({
-                        icon: "error",
-                        title: "YOU LOSE, YOU ARE THE UNDERCOVER AWOKAWOK",
-                        showConfirmButton: true,
+                        title: "YOU LOSE, YOU ARE THE UNDERCOVER",
+                        html: `
+                            <div style={{fontFamily: "League Spartan"}} class="flex flex-col space-y-4">
+                                <img src="${lose}"/>
+                            </div>
+                            `,
+                        focusConfirm: false,
+                        customClass: {
+                            popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
+                            title: "text-xl font-bold text-gray-800 mb-4",
+                            confirmButton:
+                                "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
+                            cancelButton:
+                                "bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-4",
+                        },
                     });
                 }
                 if (result === "lose") {
                     Swal.fire({
-                        icon: "success",
-                        title: "MANTEP GA KETAUAN AWOKAWOK",
-                        showConfirmButton: true,
+                        title: "NAISSSSS YOUR UNDERCOVER IS A SUCCESS",
+                        html: `
+                            <div style={{fontFamily: "League Spartan"}} class="flex flex-col space-y-4">
+                                <img src="${win}"/>
+                            </div>
+                            `,
+                        focusConfirm: false,
+                        customClass: {
+                            popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
+                            title: "text-xl font-bold text-gray-800 mb-4",
+                            confirmButton:
+                                "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
+                            cancelButton:
+                                "bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-4",
+                        },
                     });
                 }
             } else {
                 if (result === "lose") {
                     Swal.fire({
-                        icon: "error",
                         title: `YOU LOSE, UNDERCOVER : ${undercover}`,
-                        showConfirmButton: true,
+                        html: `
+                            <div style={{fontFamily: "League Spartan"}} class="flex flex-col space-y-4">
+                                <img src="${lose}"/>
+                            </div>
+                            `,
+                        focusConfirm: false,
+                        customClass: {
+                            popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
+                            title: "text-xl font-bold text-gray-800 mb-4",
+                            confirmButton:
+                                "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
+                            cancelButton:
+                                "bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-4",
+                        },
                     });
                 }
                 if (result === "win") {
                     Swal.fire({
-                        icon: "success",
-                        title: `MANTEP BISA NEBAK UNDERCOVERNYA KALIAN! UNDERCOVER: ${undercover} `,
-                        showConfirmButton: true,
+                        title: `AWESOME, YOU GUYS GUESSED IT RIGHT! UNDERCOVER: ${undercover} `,
+                        html: `
+                            <div style={{fontFamily: "League Spartan"}} class="flex flex-col space-y-4">
+                                <img src="${win}"/>
+                            </div>
+                            `,
+                        focusConfirm: false,
+                        customClass: {
+                            popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
+                            title: "text-xl font-bold text-gray-800 mb-4",
+                            confirmButton:
+                                "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
+                            cancelButton:
+                                "bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mt-4",
+                        },
                     });
                 }
             }
@@ -105,7 +167,7 @@ const GamePage = () => {
             title: "Who's the undercover?",
             html: `
           <div style={{fontFamily: "League Spartan"}} class="flex flex-col space-y-4">
-          <img src=${hm}/>
+          <img src="${hm}"/>
           <div>
           <select id="swal-input1" class="swal2-input border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm p-2">
           <option value="" disabled selected>Vote Player</option>
@@ -121,7 +183,7 @@ const GamePage = () => {
         `,
             focusConfirm: false,
             customClass: {
-                popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
+                popup: "rounded-3xl p-6 bg-white max-w-md mx-auto",
                 title: "text-xl font-bold text-gray-800 mb-4",
                 confirmButton:
                     "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
@@ -141,7 +203,7 @@ const GamePage = () => {
         });
         const { votePlayer } = dataSwal.value;
         console.log(votePlayer);
-
+        setVoted(true)
         socket.emit("vote-count", { votePlayer })
 
     };
@@ -159,39 +221,44 @@ const GamePage = () => {
 
     return (
 
-        <div style={{ fontFamily: "League Spartan" }} >
+        <div style={{ fontFamily: "League Spartan" }} className="h-screen overflow-hidden">
             {gameStarted ? (
-                <div className="flex flex-col lg:flex-row gap-10 overflow-hidden h-screen bg-[#FFF2E6] p-10">
+                <div className="flex flex-col lg:flex-row h-full bg-[#FFF2E6] p-10 gap-4">
                     {/* card container */}
-                    <div className="flex flex-col">
-                        <h1 className="text-3xl font-bold text-center my-4 py-2">CHOOSE YOUR CARD</h1>
-                        <div className="py-4 mx-auto lg:max-w-6xl md:max-w-4xl max-sm:max-w-md">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 sm:gap-6 gap-12">
-                                {images.map((image, i) => {
-                                    return <Card key={i} image={image} tema={tema} isSelect={isSelect} setIsSelect={setIsSelect} />
-                                })}
-
+                    <div className="flex flex-col lg:w-[40%] h-[40%] lg:h-full pr-2 lg:pr-4 items-center">
+                        <div className="flex-grow overflow-auto items-center justify-center ">
+                            <h1 className="text-3xl font-extrabold text-center mt-2">Hi {localStorage.getItem("name")}! Enjoy the game! </h1>
+                            <div className="my-auto items-center justify-center">
+                                <Card
+                                    tema={tema}
+                                    isSelect={isSelect}
+                                    setIsSelect={setIsSelect}
+                                    handleFlap={handleFlap}
+                                    kartu={kartu}
+                                />
                             </div>
                         </div>
                     </div>
 
                     {/* chat room */}
-                    <div className="flex-1 lg:w-1/2 rounded-3xl bg-[#FBD502] flex flex-col overflow-hidden">
-                        <div className="p-4 flex justify-between items-center ">
-                            <h1 className="text-[#004AAD] text-xl md:text-3xl font-bold">DESCRIBE YOUR WORD</h1>
+                    <div className="flex flex-col lg:w-[60%] h-full rounded-3xl bg-[#FBD502] overflow-hidden p-4">
+                        <div className="flex justify-between items-center mb-4">
+                            <h1 className="text-[#004AAD] text-xl lg:text-2xl font-bold">DESCRIBE YOUR WORD</h1>
                             {!voted && (
                                 <button
                                     onClick={handleVote}
-                                    className="bg-[#E24795] text-2xl text-white font-semibold py-2 px-4 rounded-full hover:bg-[#32AD62] transition items-center"
+                                    className="bg-[#E24795] text-white text-sm lg:text-base font-semibold py-2 px-4 rounded-full hover:bg-[#32AD62] transition"
                                 >
-                                    VOTE
+                                    <h1 className="pt-1 text-xl">
+                                        VOTE NOW
+                                    </h1>
                                 </button>
                             )}
                         </div>
 
                         {/* chat bubble */}
-                        <div className="h-[550px] bg-white m-4 rounded-2xl flex flex-col overflow-hidden p-2">
-                            <div className="flex flex-col overflow-y-auto p-4">
+                        <div className="flex-grow bg-white rounded-2xl flex flex-col overflow-hidden">
+                            <div className="flex-grow overflow-y-auto p-4">
                                 {messages.map((message, i) => (
                                     <div
                                         key={i}
@@ -201,17 +268,16 @@ const GamePage = () => {
                                             }`}
                                     >
                                         <div>
-                                            <span className="font-semibold">{message.sender}: </span>
+                                            <span className="font-semibold text-sm">{message.sender}: </span>
                                             <p className={`break-all ${message.sender === localStorage.getItem("name")
                                                 ? "bg-[#FFF42C]"
-                                                : "bg-gray-200 "
-                                                } rounded-2xl mt-1 px-3 py-1 text-sm text-wrap`}>
-                                                    {message.text}
+                                                : "bg-gray-200"
+                                                } rounded-2xl mt-1 px-3 py-1 text-sm`}>
+                                                {message.text}
                                             </p>
                                             <div className="text-xs text-gray-500 mt-1">
                                                 {new Date(message.createdAt).toLocaleTimeString()}
                                             </div>
-
                                         </div>
                                     </div>
                                 ))}
@@ -220,7 +286,7 @@ const GamePage = () => {
                         </div>
 
                         {/* input message */}
-                        <form onSubmit={handleSendMessage} className="flex m-4">
+                        <form onSubmit={handleSendMessage} className="flex mt-4">
                             <input
                                 type="text"
                                 value={text}
@@ -230,7 +296,7 @@ const GamePage = () => {
                             />
                             <button
                                 type="submit"
-                                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-r-full hover:bg-blue-600 transition"
+                                className="bg-[#004AAD] text-white font-semibold py-2 px-4 rounded-r-full hover:bg-blue-600 transition"
                             >
                                 Send
                             </button>
