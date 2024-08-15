@@ -1,71 +1,64 @@
 import { useState } from "react"
 import ReactCardFlip from "react-card-flip";
-import bgblue from "../assets/selected.png"
+import back from "../assets/9.png"
+import reveal from "../assets/10.png"
 
-const Card = ({ image, tema, isSelect, setIsSelect }) => {
-
+const Card = ({tema}) => {
     const [isFlipped, setIsFlipped] = useState(false);
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
-        setIsSelect(true)
     };
 
-
+    const cardStyle = {
+        width: '100%',
+        height: '100%',
+        backfaceVisibility: 'hidden',
+    };
+    
     return (
-
-        <div>
-            <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped}>
-                {/* front side */}
-                {!isSelect? (
-                <div onClick={handleFlip}>
-                    <div className="rounded-3xl group overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-                        <div className="w-[250px] h-[300px] overflow-hidden mx-auto">
-                            <img
-                                alt="product1"
-                                className="h-full w-full object-cover"
-                                src={image}
-                            />
-                        </div>
+        <div className="flex items-center justify-center h-full p-4 my-[7.5vh]">
+            <div className="w-[450px] h-[600px]">
+                <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped} containerStyle={{ width: '100%', height: '100%' }}>
+                    {/* front side */}
+                    <div
+                        onClick={handleFlip}
+                        style={cardStyle}
+                        className="rounded-3xl overflow-hidden cursor-pointer relative z-50 bg-[#32AD62] hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all"
+                    >
+                        <img
+                            alt="product1"
+                            className="h-full w-full object-contain"
+                            src={reveal}
+                        />
                     </div>
 
-
-                </div>
-                ) : ( <div>
-                    <div className="rounded-3xl group overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-                        <div className="w-[250px] h-[300px] overflow-hidden mx-auto">
-                            <img
-                                alt="product1"
-                                className="h-full w-full object-cover"
-                                src={image}
-                            />
-                        </div>
-                    </div>
-
-
-                </div>)}
-
-                {/* back side */}
-                <div style={{ backgroundImage: `url(${bgblue})`, backgroundSize: 'cover', backgroundPosition: 'center', fontFamily: "League Spartan" }}
-                className="rounded-3xl">
-                <div className="group overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all">
-                        <div className="w-[250px] h-[300px] overflow-hidden mx-auto object-cover">
-                         <h1 className="p-10 mx-auto font-bold text-white">
-                            {tema}
+                    {/* back side */}
+                    <div
+                        onClick={handleFlip}
+                        style={{
+                            ...cardStyle,
+                            backgroundImage: `url(${back})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                        }}
+                        className="rounded-3xl overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all flex items-center justify-center"
+                    >
+                        <div className="text-center p-6" style={{ fontFamily: "League Spartan" }}>
+                            <h2 className="font-bold text-white text-xl mb-4">
+                                your word is :
+                            </h2>
+                            <h1 className="font-bold text-white text-5xl mb-20">
+                                {tema}
                             </h1>
                         </div>
                     </div>
-
-                </div>
-
-
-
-
-            </ReactCardFlip>
+                </ReactCardFlip>
+            </div>
         </div>
+    );
+};
 
 
-    )
-}
 
 export default Card

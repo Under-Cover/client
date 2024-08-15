@@ -29,7 +29,7 @@ const StartPage = () => {
                         placeholder='Input your name here'
                         className="px-6 py-3 text-lg bg-white max-w-md outline-blue-500 rounded-full ml-2" />
                     <button type="submit"
-                        className="mx-2 px-5 py-3 rounded-full text-white text-lg tracking-wider font-medium outline-none bg-[#E24795] hover:bg-[#FBD502] hover:text-black active:bg-[#FFF42C] active:text-black">START</button>
+                        className="mx-2 px-5 py-3 rounded-full text-white text-lg tracking-wider font-bold outline-none bg-[#E24795] hover:bg-[#FBD502] hover:text-black active:bg-[#FFF42C] active:text-black">START</button>
                 </form>
 
             </div>
