@@ -42,7 +42,7 @@ const Card = ({tema}) => {
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                         }}
-                        className="rounded-3xl overflow-hidden cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all flex items-center justify-center"
+                        className="rounded-3xl cursor-pointer relative z-50 hover:before:bg-black before:absolute before:inset-0 before:opacity-20 before:transition-all flex items-center justify-center"
                     >
                         <div className="text-center p-6" style={{ fontFamily: "League Spartan" }}>
                             <h2 className="font-bold text-white text-xl mb-4">

@@ -14,35 +14,51 @@ export const LoginProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
-  const socket = io("http://localhost:3000");
+  const socket = io("https://gp.halobangjago.site");
 
   const handleSubmit = (e) => {
+    
     socket.on("kelebihan", (pesan) => {
       console.log(pesan, "DI CLIENT DIKIRIM APA SIH");
-      if(pesan.sender === localStorage.getItem("name")){
-          localStorage.clear()
-          navigate('/login')
-          Swal.fire({
-              title: "GABISA MASUUUK UDAH PENUH BROOOOO, coba lagi ntaran yaaa",
-              html: `
+      if (pesan.sender === localStorage.getItem("name")) {
+        localStorage.clear()
+        navigate('/login')
+        Swal.fire({
+          title: "GABISA MASUUUK UDAH PENUH BROOOOO, coba lagi ntaran yaaa",
+          html: `
                   <div style={{fontFamily: "League Spartan"}} class="flex flex-col space-y-4">
                       <img src="${lose}"/>
                   </div>
                   `,
-              focusConfirm: false,
-              customClass: {
-                  popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
-                  title: "text-xl font-bold text-gray-800 mb-4",
-                  confirmButton:
-                      "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
-              },
-              confirmButtonText: "SYAAAPP"
-          });
+          focusConfirm: false,
+          customClass: {
+            popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
+            title: "text-xl font-bold text-gray-800 mb-4",
+            confirmButton:
+              "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
+          },
+          confirmButtonText: "SYAAAPP"
+        });
       }
-  })
+    })
 
     e.preventDefault();
     localStorage.setItem("name", username);
+    if (!username) {
+      Swal.fire({
+        title: "Waduh! namanya belum diisi",
+        focusConfirm: false,
+        customClass: {
+          popup: "rounded-3xl p-6 bg-white  max-w-md mx-auto",
+          title: "text-xl font-bold text-gray-800 mb-4",
+          confirmButton:
+            "bg-[#004AAD] hover:bg-black text-white font-semibold py-2 px-4 rounded-full mt-4",
+        },
+        confirmButtonText: "Oiyak lupa"
+      });
+      return
+    }
+
     Swal.fire({
       title: "WELCOME!",
       html: `

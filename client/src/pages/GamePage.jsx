@@ -9,7 +9,7 @@ import lose from "../assets/wek.gif"
 import win from "../assets/yey.gif"
 import Card from "../components/Card"
 
-const socket = io("http://localhost:3000");
+const socket = io("https://gp.halobangjago.site");
 
 const GamePage = () => {
     const [messages, setMessages] = useState([]);
@@ -227,6 +227,7 @@ const GamePage = () => {
                     {/* card container */}
                     <div className="flex flex-col lg:w-[40%] h-[40%] lg:h-full pr-2 lg:pr-4 items-center">
                         <div className="flex-grow overflow-auto items-center justify-center ">
+                            <h1 className="text-3xl font-extrabold text-center mt-2">Hi {localStorage.getItem("name")}! Enjoy the game! </h1>
                             <div className="my-auto items-center justify-center">
                                 <Card
                                     tema={tema}

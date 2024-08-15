@@ -1,6 +1,7 @@
 import bgimage from "../assets/selected.png"
 import logo from "../assets/logo.gif"
 import { useLoginContext } from "../context/MyContext"
+import { useEffect, useState } from "react"
 
 
 const StartPage = () => {
@@ -13,12 +14,22 @@ const StartPage = () => {
     //     navigate('/')
     // };
 
-    const { username, setUsername, handleSubmit} = useLoginContext()
+
+    const [startAnimation, setStartAnimation] = useState(false);
+
+
+    useEffect(() => {
+        setStartAnimation(true);
+    }, []);
+
+
+
+    const { username, setUsername, handleSubmit } = useLoginContext()
     return (
 
         <div style={{ backgroundImage: `url(${bgimage})`, backgroundSize: 'cover', backgroundPosition: 'center', fontFamily: "League Spartan" }} className="h-[100vh] flex items-center align-middle justify-center" >
             <div className="p-[10vw] mx-auto w-3/4">
-                <h1 className="text-white font-semibold text-2xl mb-1 ml-2">Nasi Goreng Gila presents</h1>
+                <h1 className={`typing-animation ${startAnimation ? "animate" : ""} font-semibold text-2xl mb-1 ml-2`}>Nasi Goreng Gila presents.. </h1>
                 <img className="max-w-sreen mb-4" src={logo} />
                 <form onSubmit={handleSubmit}>
                     <input
